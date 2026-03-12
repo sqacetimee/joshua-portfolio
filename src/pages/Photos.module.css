@@ -24,37 +24,32 @@
 .mobileHint {
   font-size: 0.72rem;
   color: var(--color-muted, #999);
-  letter-spacing: 0.01em;
   display: none;
 }
 
-/* Desktop: 5 columns so all 10 photos sit in 2 clean rows */
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0.75rem;
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem 1rem;
 }
 
 .slotWrap {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
 .slot {
+  position: relative;
   aspect-ratio: 9 / 16;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  transition: box-shadow 0.25s, opacity 0.2s;
+  transition: box-shadow 0.25s;
 }
-.slot:hover {
-  box-shadow: 0 6px 22px rgba(0,0,0,0.16);
-  opacity: 0.93;
-}
+.slot:hover,
 .slotActive {
-  box-shadow: 0 6px 22px rgba(0,0,0,0.2);
-  outline: 1.5px solid rgba(0,0,0,0.12);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.16);
 }
 
 .slot img {
@@ -64,53 +59,51 @@
   display: block;
   transition: filter 0.25s;
 }
-.slot:hover img { filter: brightness(1.05); }
+.slot:hover img,
+.slotActive img { filter: brightness(1.06); }
 
-/* Caption slides in below the photo */
-.caption {
-  max-height: 0;
-  overflow: hidden;
+/* Song name overlay — top-left on hover */
+.songLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.55rem 0.6rem 1.4rem;
+  font-size: 0.63rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
   opacity: 0;
-  transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.25s ease;
-  padding: 0 0.1rem;
+  transition: opacity 0.22s;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.captionVisible {
-  max-height: 6rem;
-  opacity: 1;
-}
+.slot:hover .songLabel,
+.slotActive .songLabel { opacity: 1; }
 
-.captionDesc {
-  display: block;
+/* Description always visible below */
+.caption {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 0.72rem;
-  line-height: 1.45;
+  font-size: 0.78rem;
+  line-height: 1.5;
   color: var(--color-text, #1a1613);
-  margin-top: 0.45rem;
-  margin-bottom: 0.2rem;
-  opacity: 0.75;
+  opacity: 0.65;
+  margin: 0;
 }
 
-.captionSong {
-  display: block;
-  font-size: 0.6rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--color-muted, #999);
-}
-
-/* Tablet */
-@media (max-width: 768px) {
-  .grid { grid-template-columns: repeat(3, 1fr); gap: 0.55rem; }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .grid { grid-template-columns: repeat(2, 1fr); gap: 0.45rem; }
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem 0.6rem;
+  }
   .mobileHint { display: inline; }
+  .caption { font-size: 0.72rem; }
 }
 
 @media (max-width: 360px) {
-  .grid { gap: 0.3rem; }
+  .grid { gap: 1rem 0.4rem; }
 }
