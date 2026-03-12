@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState, useEffect } from 'react'
+import { useRef, useCallback, useState } from 'react'
 import styles from './Photos.module.css'
 
 const PHOTOS = [
@@ -18,7 +18,7 @@ export default function Photos() {
   const audioRef   = useRef(null)
   const fadeRef    = useRef(null)
   const currentRef = useRef(null)
-  const [lightbox, setLightbox] = useState(null)
+  const [activeDesc, setActiveDesc] = useState(null)
 
   const clearFade = () => {
     if (fadeRef.current) { clearInterval(fadeRef.current); fadeRef.current = null }
@@ -40,18 +40,14 @@ export default function Photos() {
     }, 30)
   }, [])
 
-  const handleEnter = useCallback((photo) => {
+  const playPhoto = useCallback((photo) => {
     const audio = audioRef.current
     if (!audio) return
-
-    setLightbox(photo)
-
     if (currentRef.current === photo.song) {
       if (audio.paused) audio.play().catch(() => {})
       fadeTo(0.45)
       return
     }
-
     if (fadeRef.current) { clearInterval(fadeRef.current); fadeRef.current = null }
     currentRef.current = photo.song
     audio.pause()
@@ -61,8 +57,7 @@ export default function Photos() {
     audio.play().then(() => fadeTo(0.45)).catch(() => {})
   }, [fadeTo])
 
-  const handleLeave = useCallback(() => {
-    setLightbox(null)
+  const stopAudio = useCallback(() => {
     fadeTo(0, () => {
       const audio = audioRef.current
       if (audio) { audio.pause(); audio.currentTime = 0 }
@@ -70,19 +65,18 @@ export default function Photos() {
     })
   }, [fadeTo])
 
-  // Escape key to close
-  useEffect(() => {
-    if (!lightbox) return
-    const onKey = (e) => { if (e.key === 'Escape') handleLeave() }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [lightbox, handleLeave])
+  const handleHover = useCallback((photo) => {
+    playPhoto(photo)
+  }, [playPhoto])
 
-  // Lock body scroll when lightbox is open
-  useEffect(() => {
-    document.body.style.overflow = lightbox ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [lightbox])
+  const handleLeaveGrid = useCallback(() => {
+    stopAudio()
+  }, [stopAudio])
+
+  const handleClick = useCallback((photo) => {
+    playPhoto(photo)
+    setActiveDesc(prev => prev?.song === photo.song ? null : photo)
+  }, [playPhoto])
 
   return (
     <div className={styles.page}>
@@ -93,38 +87,28 @@ export default function Photos() {
         <span className={styles.mobileHint}>tap to hear ♪</span>
       </div>
 
-      <div className={styles.grid}>
+      <div className={styles.grid} onMouseLeave={handleLeaveGrid}>
         {PHOTOS.map((p, i) => (
-          <div
-            key={i}
-            className={styles.slot}
-            onMouseEnter={() => handleEnter(p)}
-            onClick={() => handleEnter(p)}
-          >
-            <img src={p.src} alt={p.alt} loading="lazy" style={p.pos ? { objectPosition: p.pos } : undefined} />
+          <div key={i} className={styles.slotWrap}>
+            <div
+              className={`${styles.slot} ${activeDesc?.song === p.song ? styles.slotActive : ''}`}
+              onMouseEnter={() => handleHover(p)}
+              onClick={() => handleClick(p)}
+            >
+              <img
+                src={p.src}
+                alt={p.alt}
+                loading="lazy"
+                style={p.pos ? { objectPosition: p.pos } : undefined}
+              />
+            </div>
+            <div className={`${styles.caption} ${activeDesc?.song === p.song ? styles.captionVisible : ''}`}>
+              <span className={styles.captionDesc}>{p.desc}</span>
+              <span className={styles.captionSong}>♪ {p.name}</span>
+            </div>
           </div>
         ))}
       </div>
-
-      {lightbox && (
-        <div
-          className={styles.lightbox}
-          onMouseLeave={handleLeave}
-          onClick={(e) => { if (e.target === e.currentTarget) handleLeave() }}
-        >
-          <img
-            src={lightbox.src}
-            alt={lightbox.alt}
-            className={styles.lightboxImg}
-            style={lightbox.pos ? { objectPosition: lightbox.pos } : undefined}
-          />
-          <div className={styles.lightboxMeta}>
-            <p className={styles.lightboxDesc}>{lightbox.desc}</p>
-            <p className={styles.lightboxSong}>♪ {lightbox.name}</p>
-          </div>
-          <button className={styles.lightboxClose} onClick={handleLeave} aria-label="Close">✕</button>
-        </div>
-      )}
     </div>
   )
 }

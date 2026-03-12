@@ -9,7 +9,7 @@
   display: flex;
   align-items: baseline;
   gap: 0.75rem;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.25rem;
 }
 
 .pageTitle {
@@ -28,25 +28,33 @@
   display: none;
 }
 
+/* Desktop: 5 columns so all 10 photos sit in 2 clean rows */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.6rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.slotWrap {
+  display: flex;
+  flex-direction: column;
 }
 
 .slot {
-  position: relative;
   aspect-ratio: 9 / 16;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.25s;
+  transition: box-shadow 0.25s, opacity 0.2s;
 }
 .slot:hover {
-  transform: scale(1.03) translateY(-2px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.18);
-  z-index: 1;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.16);
+  opacity: 0.93;
+}
+.slotActive {
+  box-shadow: 0 6px 22px rgba(0,0,0,0.2);
+  outline: 1.5px solid rgba(0,0,0,0.12);
 }
 
 .slot img {
@@ -54,94 +62,55 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: filter 0.3s;
+  transition: filter 0.25s;
 }
-.slot:hover img { filter: brightness(1.06); }
+.slot:hover img { filter: brightness(1.05); }
 
-/* Lightbox */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.93);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.18s ease;
+/* Caption slides in below the photo */
+.caption {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.25s ease;
+  padding: 0 0.1rem;
 }
-@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-
-.lightboxImg {
-  max-height: 88vh;
-  max-width: 88vw;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 6px;
-  pointer-events: none;
-  user-select: none;
+.captionVisible {
+  max-height: 6rem;
+  opacity: 1;
 }
 
-.lightboxMeta {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 3rem 1.5rem 1.8rem;
-  background: linear-gradient(transparent, rgba(0,0,0,0.72));
-  color: #fff;
-  text-align: center;
-  pointer-events: none;
-}
-
-.lightboxDesc {
+.captionDesc {
+  display: block;
   font-family: var(--font-serif);
-  font-size: 0.9rem;
   font-style: italic;
-  opacity: 0.88;
-  margin: 0 0 0.4rem;
-  letter-spacing: 0.01em;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--color-text, #1a1613);
+  margin-top: 0.45rem;
+  margin-bottom: 0.2rem;
+  opacity: 0.75;
 }
 
-.lightboxSong {
-  font-size: 0.68rem;
-  opacity: 0.55;
-  letter-spacing: 0.06em;
+.captionSong {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  margin: 0;
+  color: var(--color-muted, #999);
 }
 
-.lightboxClose {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #fff;
-  font-size: 0.9rem;
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
+/* Tablet */
+@media (max-width: 768px) {
+  .grid { grid-template-columns: repeat(3, 1fr); gap: 0.55rem; }
 }
-.lightboxClose:hover { background: rgba(255,255,255,0.22); }
 
+/* Mobile */
 @media (max-width: 480px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.45rem;
-  }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 0.45rem; }
   .mobileHint { display: inline; }
-  .lightboxImg {
-    max-height: 82vh;
-    max-width: 96vw;
-  }
 }
 
 @media (max-width: 360px) {
-  .grid { grid-template-columns: repeat(2, 1fr); gap: 0.3rem; }
+  .grid { gap: 0.3rem; }
 }
