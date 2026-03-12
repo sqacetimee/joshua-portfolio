@@ -6,7 +6,7 @@ const PHOTOS = [
   { src: '/photos/1.jpeg',  alt: 'Campus at night',       song: '/songs/1.mp3' },
   { src: '/photos/2.jpeg',  alt: 'Sunset on campus',      song: '/songs/2.mp3' },
   { src: '/photos/3.jpeg',  alt: 'Winter sunrise',        song: '/songs/3.mp3' },
-  { src: '/photos/4.jpeg',  alt: 'Snowy path',            song: '/songs/4.mp3' },
+  { src: '/photos/4.jpeg',  alt: 'Roller coaster sunset', song: '/songs/4.mp3', pos: '30% center' },
   { src: '/photos/5.jpeg',  alt: 'Toronto skyline',       song: '/songs/5.mp3' },
   { src: '/photos/6.jpeg',  alt: 'Roller coaster sunset', song: '/songs/6.mp3' },
   { src: '/photos/7.jpeg',  alt: 'Pink winter sunset',    song: '/songs/7.mp3' },
@@ -83,7 +83,7 @@ export default function Photos() {
             onMouseEnter={() => handleEnter(p.song)}
             onClick={() => handleEnter(p.song)}
           >
-            <img src={p.src} alt={p.alt} loading="lazy" />
+            <img src={p.src} alt={p.alt} loading="lazy" style={p.pos ? { objectPosition: p.pos } : undefined} />
           </div>
         ))}
       </div>
