@@ -1,0 +1,161 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Nav ── */
+.nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid var(--faint);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+.brand:hover { opacity: 0.6; }
+
+.brandLogo {
+  display: flex;
+  align-items: center;
+}
+
+.brandName {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  font-family: var(--font-mono);
+  font-size: 0.69rem;
+  font-weight: 300;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  position: relative;
+  padding-bottom: 1px;
+}
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--ink);
+  transition: width 0.2s var(--ease);
+}
+.navLink:hover { color: var(--ink); }
+.navLink:hover::after { width: 100%; }
+.navLink.active { color: var(--ink); }
+.navLink.active::after { width: 100%; }
+
+.themeBtn {
+  background: none;
+  border: 1px solid var(--faint);
+  border-radius: 3px;
+  width: 28px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+.themeBtn:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+  background: var(--hover-bg);
+}
+
+/* ── Main — truly centred, no side whitespace ── */
+.main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3.5rem 2.5rem 2rem;
+}
+
+.main > * {
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ── Footer ── */
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  border-top: 1px solid var(--faint);
+  transition: border-color 0.25s;
+}
+
+.footerCopy {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 300;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+.footerLinks a {
+  color: var(--muted);
+  display: flex;
+  transition: color 0.15s, transform 0.15s;
+}
+.footerLinks a:hover {
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .nav     { padding: 1rem 1.25rem; }
+  .main    { padding: 2rem 1.25rem 1.5rem; }
+  .footer  { padding: 1rem 1.25rem; }
+  .navLinks { gap: 1rem; }
+  .brandName { display: none; }
+  .brandLogo { margin-right: 0; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .nav     { padding: 0.9rem 1rem; }
+  .main    { padding: 1.75rem 1rem 1.5rem; }
+  .footer  { padding: 0.9rem 1rem; }
+  .navLinks { gap: 0.65rem; }
+  .navRight { gap: 1rem; }
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Classic playing card: white card + dark border visible against any browser chrome -->
+  <rect x="1" y="1" width="30" height="30" rx="4" fill="#fdfaf6" stroke="#1a1613" stroke-width="1.8"/>
+  <!-- Top-left: A♠ -->
+  <text x="2.5" y="9.5"  font-family="Georgia,serif" font-size="7.5" font-weight="700" fill="#1a1613">A</text>
+  <text x="3"   y="15.5" font-family="Georgia,serif" font-size="6"   fill="#1a1613">♠</text>
+  <!-- Large centered spade -->
+  <text x="16"  y="24.5" font-family="Georgia,serif" font-size="17" text-anchor="middle" fill="#1a1613">♠</text>
+</svg>
