@@ -73,12 +73,12 @@ export default function Home() {
         <div className={styles.avatarWrap}>
           <div className={styles.fanCards}>
             <div className={`${styles.fanCard} ${styles.fanCardLeft}`}>
-              <span className={styles.fanCardCorner}>A<br/>♠</span>
-              <span className={styles.fanCardSuit}>♠</span>
+              <span className={styles.fanCardCorner}>A<br/>{'♠\uFE0E'}</span>
+              <span className={styles.fanCardSuit}>{'♠\uFE0E'}</span>
             </div>
             <div className={`${styles.fanCard} ${styles.fanCardRight}`}>
-              <span className={styles.fanCardCorner}>T<br/>♠</span>
-              <span className={styles.fanCardSuit}>♠</span>
+              <span className={styles.fanCardCorner}>T<br/>{'♠\uFE0E'}</span>
+              <span className={styles.fanCardSuit}>{'♠\uFE0E'}</span>
             </div>
           </div>
           <img src="/avatar.png" alt="Joshua Jennings" className={styles.avatar} />

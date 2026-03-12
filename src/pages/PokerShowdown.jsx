@@ -46,7 +46,8 @@ const BOARD_VISIBLE = {
   showdown: [true,  true,  true,  true,  true ],
 }
 
-const SUIT_SYM   = { s:'♠', h:'♥', d:'♦', c:'♣' }
+// \uFE0E = text variation selector — prevents iOS from rendering suits as color emoji
+const SUIT_SYM   = { s:'♠\uFE0E', h:'♥\uFE0E', d:'♦\uFE0E', c:'♣\uFE0E' }
 const SUIT_COLOR = { s:'var(--ink)', h:'#bf2318', d:'#bf2318', c:'var(--ink)' }
 
 function rand(a, b) { return a + Math.random() * (b - a) }

@@ -26,8 +26,7 @@ const MoonIcon = () => (
 
 export default function App() {
   const [theme, setTheme] = useState(() =>
-    localStorage.getItem('jj-theme') ||
-    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    localStorage.getItem('jj-theme') || 'light'
   )
 
   useEffect(() => {
