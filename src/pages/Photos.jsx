@@ -40,7 +40,7 @@ export default function Photos() {
     }, 30)
   }, [])
 
-  const handleEnter = useCallback((photo) => {
+  const playSong = useCallback((photo) => {
     const audio = audioRef.current
     if (!audio) return
     setActiveSong(photo.song)
@@ -58,6 +58,9 @@ export default function Photos() {
     audio.play().then(() => fadeTo(0.45)).catch(() => {})
   }, [fadeTo])
 
+  // Desktop hover
+  const handleEnter = useCallback((photo) => playSong(photo), [playSong])
+
   const handleLeave = useCallback(() => {
     setActiveSong(null)
     fadeTo(0, () => {
@@ -66,6 +69,15 @@ export default function Photos() {
       currentRef.current = null
     })
   }, [fadeTo])
+
+  // Mobile tap: toggle off if same song, else play new one
+  const handleClick = useCallback((photo) => {
+    if (activeSong === photo.song) {
+      handleLeave()
+    } else {
+      playSong(photo)
+    }
+  }, [activeSong, playSong, handleLeave])
 
   return (
     <div className={styles.page}>
@@ -82,7 +94,7 @@ export default function Photos() {
             <div
               className={`${styles.slot} ${activeSong === p.song ? styles.slotActive : ''}`}
               onMouseEnter={() => handleEnter(p)}
-              onClick={() => handleEnter(p)}
+              onClick={() => handleClick(p)}
             >
               <img
                 src={p.src}
