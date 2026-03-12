@@ -93,7 +93,7 @@ export default function Photos() {
           <div key={i} className={styles.slotWrap}>
             <div
               className={`${styles.slot} ${activeSong === p.song ? styles.slotActive : ''}`}
-              onMouseEnter={() => handleEnter(p)}
+              onPointerEnter={(e) => e.pointerType === 'mouse' && handleEnter(p)}
               onClick={() => handleClick(p)}
             >
               <img
