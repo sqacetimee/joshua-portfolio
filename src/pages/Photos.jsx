@@ -6,13 +6,13 @@ const PHOTOS = [
   { src: '/photos/1.jpeg',  alt: 'Campus at night',       song: '/songs/1.mp3' },
   { src: '/photos/2.jpeg',  alt: 'Sunset on campus',      song: '/songs/2.mp3' },
   { src: '/photos/3.jpeg',  alt: 'Winter sunrise',        song: '/songs/3.mp3' },
-  { src: '/photos/4.jpeg',  alt: 'Roller coaster sunset', song: '/songs/4.mp3', pos: '30% center' },
-  { src: '/photos/5.jpeg',  alt: 'Toronto skyline',       song: '/songs/5.mp3' },
-  { src: '/photos/6.jpeg',  alt: 'Roller coaster sunset', song: '/songs/6.mp3' },
+  { src: '/photos/4.jpeg',  alt: 'Roller coaster sunset', song: '/songs/4.mp3', pos: '30% center', start: 30 },
+  { src: '/photos/5.jpeg',  alt: 'Toronto skyline',       song: '/songs/5.mp3', start: 55 },
+  { src: '/photos/6.jpeg',  alt: 'Roller coaster sunset', song: '/songs/6.mp3', start: 17 },
   { src: '/photos/7.jpeg',  alt: 'Pink winter sunset',    song: '/songs/7.mp3' },
   { src: '/photos/8.jpeg',  alt: 'Canada geese',          song: '/songs/8.mp3' },
   { src: '/photos/9.jpeg',  alt: 'Snowy night path',      song: '/songs/9.mp3' },
-  { src: '/photos/10.jpeg', alt: 'Photo 10',              song: '/songs/10.mp3' },
+  { src: '/photos/10.jpeg', alt: 'Photo 10',              song: '/songs/10.mp3', start: 7 },
 ]
 
 export default function Photos() {
@@ -40,11 +40,11 @@ export default function Photos() {
     }, 30)
   }, [])
 
-  const handleEnter = useCallback((song) => {
+  const handleEnter = useCallback((photo) => {
     const audio = audioRef.current
     if (!audio) return
 
-    if (currentRef.current === song) {
+    if (currentRef.current === photo.song) {
       // Same song — just fade back in if paused
       if (audio.paused) audio.play().catch(() => {})
       fadeTo(0.45)
@@ -52,11 +52,11 @@ export default function Photos() {
     }
 
     // Different song — crossfade: fade out, swap, fade in
-    currentRef.current = song
+    currentRef.current = photo.song
     fadeTo(0, () => {
       audio.pause()
-      audio.src = song
-      audio.currentTime = 0
+      audio.src = photo.song
+      audio.currentTime = photo.start ?? 0
       audio.play().then(() => fadeTo(0.45)).catch(() => {})
     })
   }, [fadeTo])
@@ -80,8 +80,8 @@ export default function Photos() {
           <div
             key={i}
             className={styles.slot}
-            onMouseEnter={() => handleEnter(p.song)}
-            onClick={() => handleEnter(p.song)}
+            onMouseEnter={() => handleEnter(p)}
+            onClick={() => handleEnter(p)}
           >
             <img src={p.src} alt={p.alt} loading="lazy" style={p.pos ? { objectPosition: p.pos } : undefined} />
           </div>
