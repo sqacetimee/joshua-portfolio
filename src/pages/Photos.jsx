@@ -51,15 +51,16 @@ export default function Photos() {
       return
     }
 
-    // Different song — crossfade: fade out, swap, fade in
+    // Stop any ongoing fade, swap immediately, fade in
+    // (iOS requires play() to be called directly in the tap handler — no async delay)
+    if (fadeRef.current) { clearInterval(fadeRef.current); fadeRef.current = null }
     currentRef.current = photo.song
     setActiveSong(photo.song)
-    fadeTo(0, () => {
-      audio.pause()
-      audio.src = photo.song
-      audio.currentTime = photo.start ?? 0
-      audio.play().then(() => fadeTo(0.45)).catch(() => {})
-    })
+    audio.pause()
+    audio.src = photo.song
+    audio.currentTime = photo.start ?? 0
+    audio.volume = 0
+    audio.play().then(() => fadeTo(0.45)).catch(() => {})
   }, [fadeTo])
 
   const handleLeave = useCallback(() => {
