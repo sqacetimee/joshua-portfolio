@@ -1,29 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Home.module.css'
 import PokerShowdown from './PokerShowdown'
 
 const FULL_NAME = 'Joshua Jennings'
 const EMAIL = 'jenningsjoshua72@gmail.com'
-
-function TypingName() {
-  const [displayed, setDisplayed] = useState('')
-  const [done, setDone] = useState(false)
-  useEffect(() => {
-    if (displayed.length < FULL_NAME.length) {
-      const t = setTimeout(() => setDisplayed(FULL_NAME.slice(0, displayed.length + 1)), 68)
-      return () => clearTimeout(t)
-    }
-    const t = setTimeout(() => setDone(true), 800)
-    return () => clearTimeout(t)
-  }, [displayed])
-  return (
-    <h1 className={styles.name}>
-      {displayed}
-      <span className={done ? styles.cursorHidden : styles.cursor}>|</span>
-    </h1>
-  )
-}
 
 const CONTACT = [
   {
@@ -43,6 +24,25 @@ const CONTACT = [
     icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
   },
 ]
+
+function TypingName() {
+  const [displayed, setDisplayed] = useState('')
+  const [done, setDone] = useState(false)
+  useEffect(() => {
+    if (displayed.length < FULL_NAME.length) {
+      const t = setTimeout(() => setDisplayed(FULL_NAME.slice(0, displayed.length + 1)), 68)
+      return () => clearTimeout(t)
+    }
+    const t = setTimeout(() => setDone(true), 800)
+    return () => clearTimeout(t)
+  }, [displayed])
+  return (
+    <h1 className={styles.name}>
+      {displayed}
+      <span className={done ? styles.cursorHidden : styles.cursor}>|</span>
+    </h1>
+  )
+}
 
 export default function Home() {
   const [copied, setCopied] = useState(false)

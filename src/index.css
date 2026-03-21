@@ -20,10 +20,10 @@
 [data-theme="dark"] {
   --bg: #0e0d0b;
   --bg2: #161410;
-  --ink: #e8e3db;
-  --ink2: #a09890;
-  --muted: #5a544c;
-  --faint: #272420;
+  --ink: #ccc4bc;
+  --ink2: #b5ada4;
+  --muted: #908880;
+  --faint: #3d3830;
   --hover-bg: #1c1a16;
 }
 
