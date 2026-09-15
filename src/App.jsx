@@ -78,6 +78,10 @@ export default function App() {
         <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo(0, 0)}>
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
+            {/* Addresses phones, shortcuts and old links open, which all mean the home page */}
+            <Route path="/index.html" element={<Navigate to="/" replace />} />
+            <Route path="/home" element={<Navigate to="/" replace />} />
+            <Route path="/resume" element={<Navigate to="/" replace />} />
             <Route path="/work" element={<Projects />} />
             <Route path="/projects" element={<Navigate to="/work" replace />} />
             <Route path="/photos" element={<Photos />} />
