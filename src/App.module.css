@@ -1,161 +1,149 @@
 .shell {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  isolation: isolate;
 }
 
-/* ── Nav ── */
+/* ── Nav: fixed, planet mark on the left, three links centred ── */
 .nav {
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  height: var(--nav-h);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 2.5rem;
-  border-bottom: 1px solid var(--faint);
-  position: sticky;
-  top: 0;
-  background: var(--bg);
-  z-index: 10;
-  transition: background 0.25s, border-color 0.25s;
+  justify-content: center;
+  /* In daylight a soft dark halo keeps the links from blending into the bright sky */
+  text-shadow: 0 0 2px rgba(6, 8, 15, calc(var(--sky-day) * 0.7)), 0 0 12px rgba(6, 8, 15, calc(var(--sky-day) * 0.75));
 }
+
+/* Once content scrolls under the nav: a very light, even frosted band that only fades out at its lower edge.
+   A soft shadow behind the nav text keeps it readable over bright images without a heavy background */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -40px 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(6, 8, 15, 0.16);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 64%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 64%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.6s var(--soft);
+}
+.nav[data-scrolled="true"]::before { opacity: 1; }
+.nav[data-scrolled="true"] { text-shadow: 0 0 1px rgba(6, 8, 15, 0.9), 0 0 2px rgba(6, 8, 15, 0.8), 0 0 8px rgba(6, 8, 15, 0.55); }
 
 .brand {
+  position: absolute;
+  left: var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  align-items: center;
-  color: var(--ink);
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: opacity 0.15s;
-}
-.brand:hover { opacity: 0.6; }
-
-.brandLogo {
-  display: flex;
-  align-items: center;
-}
-
-.brandName {
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
-  font-weight: 400;
-  letter-spacing: 0.005em;
-}
-
-.navRight {
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
+  padding: 0.35rem;
+  margin-left: -0.35rem;
+  border-radius: 50%;
 }
 
 .navLinks {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: clamp(1.2rem, 5vw, 2.6rem);
 }
 
 .navLink {
-  font-family: var(--font-mono);
-  font-size: 0.69rem;
-  font-weight: 300;
-  letter-spacing: 0.07em;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.15s;
   position: relative;
-  padding-bottom: 1px;
-}
-.navLink::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1px;
-  background: var(--ink);
-  transition: width 0.2s var(--ease);
-}
-.navLink:hover { color: var(--ink); }
-.navLink:hover::after { width: 100%; }
-.navLink.active { color: var(--ink); }
-.navLink.active::after { width: 100%; }
-
-.themeBtn {
-  background: none;
-  border: 1px solid var(--faint);
-  border-radius: 3px;
-  width: 28px; height: 24px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  color: var(--muted);
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
-  flex-shrink: 0;
-}
-.themeBtn:hover {
-  color: var(--ink);
-  border-color: var(--muted);
-  background: var(--hover-bg);
-}
-
-/* ── Main — truly centred, no side whitespace ── */
-.main {
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 3.5rem 2.5rem 2rem;
-}
-
-.main > * {
-  width: 100%;
-  max-width: 560px;
-}
-
-/* ── Footer ── */
-.footer {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 2.5rem;
-  border-top: 1px solid var(--faint);
-  transition: border-color 0.25s;
-}
-
-.footerCopy {
+  display: inline-block;
+  padding: 0.7rem 0.2rem;
   font-family: var(--font-mono);
-  font-size: 0.64rem;
-  font-weight: 300;
-  color: var(--ink2);
-  letter-spacing: 0.05em;
-}
-
-.footerLinks {
-  display: flex;
-  gap: 0.9rem;
-  align-items: center;
-}
-.footerLinks a {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
   color: var(--muted);
+  transform-origin: 50% 55%;
+  transition: color 0.35s var(--soft), scale 0.45s var(--ease);
+}
+/* Hover: the link simply grows a touch and brightens */
+.navLink:hover {
+  color: #fbf8f1;
+  scale: 1.08;
+}
+.active { color: var(--ink); }
+.active::after {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  right: 0.2rem;
+  bottom: 0.45rem;
+  height: 1px;
+  background: var(--ink);
+}
+
+/* ── Main ── */
+.main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  padding: var(--nav-h) var(--gutter) 0;
+  text-shadow: 0 0 2px rgba(6, 8, 15, calc(var(--sky-day) * 0.55)), 0 0 14px rgba(6, 8, 15, calc(var(--sky-day) * 0.6));
+}
+
+/* ── Footer: credits at the bottom-left edge, webring at the bottom-right edge ── */
+.footer {
+  position: relative;
+  z-index: 1;
   display: flex;
-  transition: color 0.15s, transform 0.15s;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem var(--gutter) calc(1.1rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
 }
-.footerLinks a:hover {
+
+.footLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.credit a {
+  color: var(--ink-2);
+  background:
+    linear-gradient(currentColor, currentColor) 100% 100% / 0 1px no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 2px;
+  transition: color 0.3s, background-size 0.45s var(--ease);
+}
+.credit a:hover {
   color: var(--ink);
-  transform: translateY(-1px);
+  background-position: 0 100%, 0 100%;
+  background-size: 100% 1px, 100% 1px;
 }
 
-@media (max-width: 600px) {
-  .nav     { padding: 1rem 1.25rem; }
-  .main    { padding: 2rem 1.25rem 1.5rem; }
-  .footer  { padding: 1rem 1.25rem; }
-  .navLinks { gap: 1rem; }
-  .brandName { display: none; }
-  .brandLogo { margin-right: 0; }
+.webring {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  margin-right: -0.5rem;
+  margin-bottom: -0.35rem;
 }
+.webring a {
+  display: flex;
+  padding: 0.5rem;
+  color: var(--muted);
+  transition: color 0.3s;
+}
+.webring a:hover { color: var(--ink); }
 
-/* Very small phones */
-@media (max-width: 360px) {
-  .nav     { padding: 0.9rem 1rem; }
-  .main    { padding: 1.75rem 1rem 1.5rem; }
-  .footer  { padding: 0.9rem 1rem; }
-  .navLinks { gap: 0.65rem; }
-  .navRight { gap: 1rem; }
+@media (max-width: 380px) {
+  .navLinks { gap: 1rem; margin-left: 2rem; }
 }

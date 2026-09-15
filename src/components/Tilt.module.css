@@ -1,0 +1,54 @@
+.tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  /* Set per frame by LightRig */
+  --li: 0;
+  --lx: -9999px;
+  --ly: -9999px;
+  --tx: 0px;
+  --ty: 0px;
+  /* Cards set their own resting shadows through these */
+  --base-shadow: 0 0 0 transparent;
+  --base-shadow-hover: var(--base-shadow);
+  position: relative;
+  scale: 1;
+  transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry));
+  /* Light spills past the edge facing the star; the card's shadow falls the other way */
+  box-shadow:
+    var(--tx) var(--ty) 46px -12px rgb(190 206 255 / calc(var(--li) * 0.22)),
+    calc(var(--tx) * -1.5) calc(var(--ty) * -1.5) 50px -16px rgb(0 0 0 / calc(var(--li) * 0.55)),
+    var(--base-shadow);
+  transition: transform 0.8s var(--ease), scale 0.8s var(--ease);
+  will-change: transform, scale;
+}
+/* Follow the cursor closely while hovering and grow a little; ease back slowly on leave */
+.tilt[data-hover="true"] {
+  scale: var(--lift);
+  box-shadow:
+    var(--tx) var(--ty) 46px -12px rgb(190 206 255 / calc(var(--li) * 0.22)),
+    calc(var(--tx) * -1.5) calc(var(--ty) * -1.5) 50px -16px rgb(0 0 0 / calc(var(--li) * 0.55)),
+    var(--base-shadow-hover);
+  transition: transform 0.18s ease-out, scale 0.7s var(--ease);
+}
+
+/* The rim: a 1px edge lit from the star's position, brightest nearest the star and fading around the
+   corners, as if its light were escaping around the card */
+.rim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(300px circle at var(--lx) var(--ly),
+    rgb(244 242 236 / calc(var(--li) * 0.8)),
+    rgb(190 206 255 / calc(var(--li) * 0.3)) 40%,
+    transparent 75%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt[data-hover="true"] { scale: 1; }
+}

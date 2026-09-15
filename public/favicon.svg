@@ -1,9 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Classic playing card: white card + dark border visible against any browser chrome -->
-  <rect x="1" y="1" width="30" height="30" rx="4" fill="#fdfaf6" stroke="#1a1613" stroke-width="1.8"/>
-  <!-- Top-left: A♠ -->
-  <text x="2.5" y="9.5"  font-family="Georgia,serif" font-size="7.5" font-weight="700" fill="#1a1613">A</text>
-  <text x="3"   y="15.5" font-family="Georgia,serif" font-size="6"   fill="#1a1613">♠</text>
-  <!-- Large centered spade -->
-  <text x="16"  y="24.5" font-family="Georgia,serif" font-size="17" text-anchor="middle" fill="#1a1613">♠</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Ringed planet on a night sky; the ring passes behind, then in front of, the planet -->
+  <defs>
+    <clipPath id="front"><rect x="0" y="33" width="64" height="31"/></clipPath>
+    <radialGradient id="shade" cx="38%" cy="32%" r="72%">
+      <stop offset="0" stop-color="#f6f2e8"/>
+      <stop offset="1" stop-color="#aea797"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#06080f"/>
+  <circle cx="12" cy="13" r="1.7" fill="#ece8df"/>
+  <circle cx="51" cy="11" r="1.1" fill="#ece8df" opacity="0.7"/>
+  <circle cx="53" cy="52" r="1.3" fill="#ece8df" opacity="0.8"/>
+  <g transform="rotate(-22 32 33)">
+    <ellipse cx="32" cy="33" rx="25" ry="7" fill="none" stroke="#e8c979" stroke-width="3.2"/>
+  </g>
+  <circle cx="32" cy="33" r="12.5" fill="url(#shade)"/>
+  <g transform="rotate(-22 32 33)" clip-path="url(#front)">
+    <ellipse cx="32" cy="33" rx="25" ry="7" fill="none" stroke="#e8c979" stroke-width="3.2"/>
+  </g>
 </svg>

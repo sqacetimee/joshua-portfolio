@@ -1,0 +1,38 @@
+.wrap {
+  max-width: var(--wrap);
+  min-height: calc(100vh - var(--nav-h) - 6rem);
+  min-height: calc(100svh - var(--nav-h) - 6rem);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.msg {
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 8vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+}
+
+.back {
+  display: inline-block;
+  margin-top: 0.6rem;
+  padding: 0.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  transition: color 0.3s;
+}
+.back:hover { color: var(--ink); }

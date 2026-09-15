@@ -1,0 +1,31 @@
+.mark {
+  display: block;
+  overflow: visible;
+}
+
+.ring,
+.planet,
+.orbit {
+  transform-box: view-box;
+  transform-origin: 32px 33px;
+}
+
+.ring {
+  transform: rotate(-22deg);
+  transition: transform 0.9s var(--ease);
+}
+
+.planet { transition: transform 0.9s var(--ease); }
+
+.moon { fill: var(--ink); opacity: 0.8; }
+.orbit { animation: orbit 16s linear infinite; }
+@keyframes orbit { to { transform: rotate(360deg); } }
+
+/* Hover (on the link that holds the mark): the ring tilts and the moon speeds up */
+:global(a:hover) > .mark .ring { transform: rotate(-6deg) scaleY(1.25); }
+:global(a:hover) > .mark .planet { transform: scale(1.06); }
+:global(a:hover) > .mark .orbit { animation-duration: 3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit { animation: none; }
+}
