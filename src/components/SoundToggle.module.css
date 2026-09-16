@@ -11,6 +11,8 @@
   background: none;
   border: 0;
   cursor: pointer;
+  /* No waiting for a double tap on phones, so the press lands straight away */
+  touch-action: manipulation;
   font-family: var(--font-mono);
   font-size: 0.62rem;
   letter-spacing: 0.14em;
@@ -18,6 +20,8 @@
   transition: color 0.3s;
 }
 .toggle:hover { color: var(--ink); }
+/* A small nudge under the finger, so the press is felt as well as heard */
+.toggle:active { color: var(--ink); scale: 0.94; }
 
 .bars {
   display: inline-flex;

@@ -12,6 +12,7 @@ let fadeRaf = 0
 let started = false
 let ducks = 0
 let canFade = true
+let pressed = false // the visitor just pressed the sound toggle
 let state = { available: false, enabled: true, playing: false, blocked: false }
 try { state.enabled = localStorage.getItem(STORAGE_KEY) !== 'off' } catch { /* storage blocked */ }
 
@@ -51,12 +52,15 @@ const wanted = () => state.available && state.enabled && started && ducks === 0 
 
 function update() {
   if (!audio || !state.available) return
+  // A press of the toggle is answered at once; everything else fades gently
+  const fast = pressed
   if (wanted()) {
     if (audio.paused) {
       if (canFade) audio.volume = 0
+      if (fast) emit({ playing: true, blocked: false })
       audio.play().then(() => {
         emit({ playing: true, blocked: false })
-        fadeTo(VOLUME, 1400)
+        fadeTo(VOLUME, fast ? 200 : 1400)
       }).catch(() => {
         // Blocked until the visitor interacts: wait for the first click, tap or key press
         started = false
@@ -64,11 +68,12 @@ function update() {
       })
     } else {
       emit({ playing: true, blocked: false })
-      fadeTo(VOLUME, 1400)
+      fadeTo(VOLUME, fast ? 200 : 1400)
     }
   } else if (!audio.paused) {
     emit({ playing: false })
-    fadeTo(0, ducks > 0 ? 500 : 900, () => {
+    // Muting: silent straight away, with just enough of a fade to avoid a click in the speakers
+    fadeTo(0, fast ? 80 : (ducks > 0 ? 500 : 900), () => {
       if (!wanted()) audio.pause()
     })
   }
@@ -125,9 +130,11 @@ export function startMusic() {
 
 export function setMusicEnabled(on) {
   started = true
+  pressed = true
   emit({ enabled: on })
   try { localStorage.setItem(STORAGE_KEY, on ? 'on' : 'off') } catch { /* storage blocked */ }
   update()
+  pressed = false
 }
 
 /* Lower the music to silence while something else plays; calls must be balanced */

@@ -122,7 +122,7 @@ export default function Home() {
             <span className={styles.live} data-live={live} aria-hidden="true" />
             <SkyClock />
           </Item>
-          <Item as="h1" className={styles.name} aria-label="Joshua Jennings"><Letters text="Joshua Jennings" /></Item>
+          <Item as="h1" className={styles.name} aria-label="Joshua Jennings"><Letters text="Joshua Jennings" constellation /></Item>
           <Item as="p" className={styles.role}>
             Math @ <a href="https://uwaterloo.ca" target="_blank" rel="noreferrer">University of Waterloo</a>
           </Item>

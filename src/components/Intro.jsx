@@ -78,6 +78,8 @@ export default function Intro() {
     let cx = 0
     let cy = 0
     const size = () => {
+      // The screen can be resized after the site has opened, when the planet is gone
+      if (!planetRef.current) return
       dpr = Math.min(window.devicePixelRatio || 1, 2)
       W = window.innerWidth
       H = window.innerHeight
@@ -283,6 +285,7 @@ export default function Intro() {
           pulses.push({ born: now, from: 14, to: Math.hypot(W, H) * 0.35, life: 900, alpha: 0.55 })
           root.dataset.intro = 'revealing'
           overlay.dataset.leaving = 'true'
+          window.removeEventListener('keydown', onKey)
           timers.push(setTimeout(() => setDone(true), FADE_MS + 100))
         }
       }
@@ -292,9 +295,10 @@ export default function Intro() {
     }
     raf = requestAnimationFrame(frame)
 
-    // Enter or Space also goes in
+    // Enter or Space also goes in. Once the site is open these keys belong to the page again, so the
+    // listener steps aside instead of swallowing them.
     const onKey = (e) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return
+      if (entered || (e.key !== 'Enter' && e.key !== ' ')) return
       e.preventDefault()
       enterRef.current()
     }

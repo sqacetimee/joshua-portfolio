@@ -72,6 +72,8 @@
 }
 
 .role {
+  /* The name's letters ride a curve and dip below their line, so this sits a little lower */
+  margin-top: 0.55rem;
   font-size: clamp(1.05rem, 2.2vw, 1.35rem);
   color: var(--ink-2);
 }
@@ -95,7 +97,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.2rem 1.8rem;
-  margin-top: 0.4rem;
+  margin-top: 0.75rem;
 }
 
 .textLink {

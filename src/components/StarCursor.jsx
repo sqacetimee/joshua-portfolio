@@ -120,8 +120,8 @@ export default function StarCursor() {
     // Rebuild the letter distance fields only when the titles themselves change (text, size or font)
     const refreshTitles = () => {
       if (!field) return
-      // During the opening the site is scaled inside the telescope, so measure the titles once it has finished
-      if (document.documentElement.dataset.intro) {
+      // Titles move while the site opens and while the name settles, so measure them once they are still
+      if (document.documentElement.dataset.intro || document.documentElement.dataset.settling) {
         titleAtlas = null
         titleKey = ''
         dirty = true
@@ -446,7 +446,7 @@ export default function StarCursor() {
       if (entered) wake()
     })
     mutations.observe(document.body, { childList: true, subtree: true })
-    mutations.observe(document.documentElement, { attributes: true, attributeFilter: ['data-intro'] })
+    mutations.observe(document.documentElement, { attributes: true, attributeFilter: ['data-intro', 'data-settling'] })
     const unsubscribeTargets = subscribeSkyTargets(() => { if (entered) wake() })
 
     window.addEventListener('pointermove', onMove, { passive: true })
