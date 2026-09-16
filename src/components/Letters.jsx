@@ -8,7 +8,7 @@ import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
    just off the line, never landing on a perfect baseline. Used for the name on the home page. */
 
 // How long the whole arrival takes, matching the animations in index.css
-const TOTAL_MS = 2700
+const TOTAL_MS = 1700
 
 // Repeatable pseudo-random numbers, so the scatter is designed rather than different on every visit
 function rand(seed) {

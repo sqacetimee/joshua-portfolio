@@ -123,8 +123,8 @@ html[data-intro="revealing"] .letters:not(.constellation) .letter {
   50% { transform: translateY(var(--ba)) rotate(var(--bw)); }
 }
 .letters.constellation[data-phase="in"] .letter {
-  animation: star-settle 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: calc(0.2s + var(--ord) * 0.05s);
+  animation: star-settle 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(0.1s + var(--ord) * 0.028s);
 }
 @keyframes star-settle {
   0% {
@@ -157,8 +157,8 @@ html[data-intro="revealing"] .letters:not(.constellation) .letter {
   pointer-events: none;
 }
 .letters.constellation[data-phase="in"] .letter::after {
-  animation: letter-spark 0.8s ease-out both;
-  animation-delay: calc(0.55s + var(--ord) * 0.05s);
+  animation: letter-spark 0.6s ease-out both;
+  animation-delay: calc(0.4s + var(--ord) * 0.028s);
 }
 @keyframes letter-spark {
   0% { opacity: 0; scale: 0.4; }
@@ -191,11 +191,11 @@ html[data-intro="revealing"] .letters:not(.constellation) .letter {
   transform-origin: center;
 }
 .letters.constellation[data-phase="in"] .chart .link {
-  animation: chart-draw 2.4s cubic-bezier(0.33, 0, 0.2, 1) 0.1s both;
+  animation: chart-draw 1.5s cubic-bezier(0.33, 0, 0.2, 1) 0.05s both;
 }
 .letters.constellation[data-phase="in"] .chart .node {
-  animation: chart-node 1.6s ease-out both;
-  animation-delay: calc(0.1s + var(--ord) * 0.055s);
+  animation: chart-node 1s ease-out both;
+  animation-delay: calc(0.05s + var(--ord) * 0.03s);
 }
 @keyframes chart-draw {
   0% { stroke-dashoffset: var(--len); opacity: 0; }
@@ -216,12 +216,12 @@ html[data-intro="revealing"] .letters:not(.constellation) .letter {
 @media (prefers-reduced-motion: reduce) {
   .letters.constellation[data-phase="in"] .letter {
     animation-name: star-hold !important;
-    animation-duration: 0.9s !important;
+    animation-duration: 0.6s !important;
   }
   .letters.constellation[data-phase="in"] .letter::after { animation: none !important; }
   .letters.constellation .glyph { animation: none !important; }
-  .letters.constellation[data-phase="in"] .chart .link { animation-duration: 3.2s !important; }
-  .letters.constellation[data-phase="in"] .chart .node { animation-duration: 2.2s !important; }
+  .letters.constellation[data-phase="in"] .chart .link { animation-duration: 2s !important; }
+  .letters.constellation[data-phase="in"] .chart .node { animation-duration: 1.4s !important; }
   @keyframes star-hold {
     0% { opacity: 0; text-shadow: 0 0 12px rgba(246, 223, 160, 0.95); }
     100% { opacity: 1; text-shadow: 0 2px 30px rgba(6, 8, 15, 0.35); }
