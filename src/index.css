@@ -115,12 +115,13 @@ html[data-intro="revealing"] .letters:not(.constellation) .letter {
 /* Once they are placed the letters keep drifting, each at its own speed, like something floating */
 .letters.constellation .glyph {
   display: inline-block;
+  --bob: 1; /* turned down, not off, when the visitor asks for less motion */
   animation: letter-bob var(--bs) ease-in-out var(--bd) infinite;
   will-change: transform;
 }
 @keyframes letter-bob {
-  0%, 100% { transform: translateY(calc(var(--ba) * -1)) rotate(calc(var(--bw) * -1)); }
-  50% { transform: translateY(var(--ba)) rotate(var(--bw)); }
+  0%, 100% { transform: translateY(calc(var(--ba) * var(--bob) * -1)) rotate(calc(var(--bw) * var(--bob) * -1)); }
+  50% { transform: translateY(calc(var(--ba) * var(--bob))) rotate(calc(var(--bw) * var(--bob))); }
 }
 .letters.constellation[data-phase="in"] .letter {
   animation: star-settle 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -219,7 +220,12 @@ html[data-intro="revealing"] .letters:not(.constellation) .letter {
     animation-duration: 0.6s !important;
   }
   .letters.constellation[data-phase="in"] .letter::after { animation: none !important; }
-  .letters.constellation .glyph { animation: none !important; }
+  /* The drift stays, at half the size and half the speed, so the name is still alive */
+  .letters.constellation .glyph {
+    --bob: 0.78;
+    animation-duration: calc(var(--bs) * 1.35) !important;
+    animation-iteration-count: infinite !important;
+  }
   .letters.constellation[data-phase="in"] .chart .link { animation-duration: 2s !important; }
   .letters.constellation[data-phase="in"] .chart .node { animation-duration: 1.4s !important; }
   @keyframes star-hold {
